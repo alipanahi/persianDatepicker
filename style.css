@@ -1,0 +1,169 @@
+html{
+    font-size: .75rem;
+}
+body{
+    font-family: B Nazanin,ubuntu, Helvetica, sans-serif;
+    
+    font-weight: 300;
+}
+h1{
+    color: #69c2ea;
+    margin-bottom: 0;
+    font-size: 1.5em;
+}
+#shamsiDate{
+    cursor: pointer;
+}
+h2{
+    font-family: ubuntu;
+    font-weight: 300;
+    margin-top: 0;
+}
+
+.miladi{
+    margin-bottom: 0;
+}
+.today{
+    cursor: pointer;
+    text-decoration: none;
+    padding: .5em 1em;
+    
+}
+.today:hover{
+    background: #eee;
+}
+#container{
+    border: 1px solid gainsboro;
+    max-width: 15%;
+    position: relative;
+    /*max-width: 600px;*/
+    background: #fff;
+    text-align: center;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 12%), 0 1px 4px rgb(0 0 0 / 24%);
+    padding: 1em;
+    z-index: 1000;
+}
+.week-days{
+    display: flex;
+    justify-content: space-around;
+    background: #555;
+    color: white;
+    margin: 0 auto;
+    border-radius: 5px;
+    width: 100%;
+}
+#days{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: #69c2ea;
+}
+.day{
+    
+    width: 13%;
+    margin: .5em 0;
+    height: auto;
+    cursor: pointer;
+}
+.day:hover{
+    background:#888;
+
+}
+.current-day{
+    border: 2px solid #555;
+    border-radius: 5px;
+}
+section div{
+    margin: 1em;
+}
+
+header{
+    position: relative;
+}
+.actions {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    position: absolute;
+    
+    transform: translateY(-50%);
+    margin: 0 auto;
+    top: 7.5%;
+}
+.actions button {
+    border-radius: 50px;
+    background-color: #555;
+    color: #69c2ea;
+    border: 0;
+    font-weight: bold;
+    cursor: pointer;
+    
+    font-size: .75em;
+    width: 2em;
+    height: 2em;
+}
+#nextMonth {
+    margin-left: 20px;
+}
+#previousMonth {
+    margin-right: 20px;   
+}
+.shamsi_day{
+    font-size: 1em;
+}
+.miladi_day{
+    font-family: ubuntu;
+    color: black;
+    display: block;
+    font-size: 1em;
+}
+#modal{
+    background-color: #fefefe;
+    margin: 0 auto;
+    border: 1px solid #888;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: .5em;
+    width: 15%;
+}
+#overlay {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+select{
+    padding:.5em;
+    
+    font-family: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    width: 90%;
+    font-size: .65em;
+    margin-bottom: .5em;
+}
+.modalBtn{
+    background: #555;
+    padding: .65em 1em;
+    border-radius: 5%;
+    text-decoration: none;
+    color: #69c2ea;
+    text-align: center;
+    margin: 0;
+    font-size: .65em;
+    width: 65%;
+}
+
+.datepicker{
+    position: absolute;
+}
