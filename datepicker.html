@@ -7,31 +7,35 @@
         <meta charset="utf-8"/>
     </head>
     <body>
-        <section>
-            <input type="text" class="datepicker">
-        </section>
-        <section id="container" style="display: none;">
-            <header>
-                <a href="#" class="today" id="todayBtn">امروز</a>
-                <h1><span id="shamsiDate"></span></h1>
-                <div class="week-days" dir="rtl">
-                    <p>ش</p>
-                    <p>ی</p>
-                    <p>د</p>
-                    <p>س</p>
-                    <p>چ</p>
-                    <p>پ</p>
-                    <p>ج</p>
-                </div>
-                <div id="days" dir="rtl">
-                     
-                </div>
-            </header>
-            <div class="actions">
-                <button id="nextMonth" aria-label="Previous Slidex"><</button>
-                <button id="previousMonth" aria-label="Next Slide">></button>
+        <section style="width:50%;display: flex;margin: 0 auto;justify-content: space-between;">
+            <div style="width: 40%;">
+                <label>start Date:</label>
+                <input type="text" class="datepicker" >
             </div>
-            
+            <div style="width: 40%;">
+                <label>End Date:</label>
+                <input type="text" class="datepicker">
+            </div>
+        </section>
+        <section style="width:50%;display: flex;margin: 0 auto;justify-content: space-between;">
+            <div style="width: 40%;">
+                <label>Name:</label>
+                <input type="text"  >
+            </div>
+            <div style="width: 40%;">
+                <label>Last Name:</label>
+                <input type="text">
+            </div>
+        </section>
+        <section style="width:50%;display: flex;margin: 0 auto;justify-content: space-between;">
+            <div style="width: 40%;">
+                <label>start Date:</label>
+                <input type="text" class="datepicker" >
+            </div>
+            <div style="width: 40%;">
+                <label>End Date:</label>
+                <input type="text" class="datepicker">
+            </div>
         </section>
         <div id="overlay" style="display: none;">
             <div id="modal">

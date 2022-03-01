@@ -2,6 +2,52 @@ const miladi_month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const shamsi_month_days = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
 const shamsi_months = ["حمل", "ثور", "جوزا", "سرطان","اسد","سنبله","میزان","عقرب","قوس","جدی","دلو","حوت"]
 const miladi_months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+const week_days = ['ش','ی','د','س','چ','پ','ج']
+
+let body = document.getElementsByTagName('body')[0]
+let section = document.createElement('section')
+section.setAttribute('id','container')
+body.appendChild(section)
+let header = document.createElement('header')
+section.appendChild(header)
+let a = document.createElement('a')
+a.setAttribute('href','#')
+a.classList.add('today')
+a.setAttribute('id','todayBtn')
+a.textContent = 'امروز'
+header.appendChild(a)
+let h1 = document.createElement('h1')
+header.appendChild(h1)
+let span = document.createElement('span')
+span.setAttribute('id','shamsiDate')
+h1.appendChild(span)
+let divWeekDays = document.createElement('div')
+divWeekDays.classList.add('week-days')
+divWeekDays.setAttribute('dir','rtl')
+header.appendChild(divWeekDays)
+week_days.forEach((element) =>{
+    let p = document.createElement('p')
+    p.textContent = element
+    divWeekDays.appendChild(p)
+})
+
+let divDays = document.createElement('div')
+divDays.setAttribute('id','days')
+divDays.setAttribute('dir','rtl')
+section.appendChild(divDays)
+let actionDiv = document.createElement('div')
+actionDiv.classList.add('actions')
+section.appendChild(actionDiv)
+let next_btn = document.createElement('button')
+next_btn.setAttribute('id','nextMonth')
+next_btn.textContent = '<'
+actionDiv.appendChild(next_btn)
+let pre_btn = document.createElement('button')
+pre_btn.setAttribute('id','previousMonth')
+pre_btn.textContent = '>'
+actionDiv.appendChild(pre_btn)
+section.style.display='none'
+
 const shamsiDateSpan = document.getElementById('shamsiDate')
 const daysDiv = document.getElementById('days')
 const nextBtn = document.getElementById('nextMonth')
@@ -292,6 +338,7 @@ window.onclick = function(event) {
     }
     
 }
+
 function renderModal(){
     let modalYear = document.getElementById('select_year').value
     let modalMonth = document.getElementById('select_month').value
@@ -306,20 +353,24 @@ function renderModal(){
     document.getElementById('overlay').style.display= "none";
     renderCalendar(modalYear,modalMonth,1)
 }
+window.addEventListener('mouseup', function(e) {
+    if(e.target.classList == 'datepicker'){
+        e.target.addEventListener('click',loadDatepicer(e.target))
+    }
+});
 
-
-const textBox = document.getElementsByClassName("datepicker")[0]
-textBox.addEventListener('click',loadDatepicer)
-function loadDatepicer(){
-    
-    let top = textBox.offsetTop
-    let left = textBox.offsetLeft
-    document.getElementById('container').style.top=top+'px'
-    document.getElementById('container').style.left=textBox.offsetLeft+'px'
+function loadDatepicer(e){
+    textBox = e
+    let top = e.getBoundingClientRect().top
+    let height = e.getBoundingClientRect().height
+    let left = e.getBoundingClientRect().left
+    console.log(e.getBoundingClientRect())
+    document.getElementById('container').style.left=left+'px'
+    document.getElementById('container').style.top=top+height+'px'
     document.getElementById('container').style.display='block'
-    document.addEventListener('mouseup', function(e) {
+    document.addEventListener('mouseup', function(event) {
         var container = document.getElementById('container');
-        if (!container.contains(e.target)) {
+        if (!container.contains(event.target)) {
             container.style.display = 'none';
         }
     });
@@ -329,4 +380,5 @@ function loadDatepicer(){
 
 function putDate(day){
     textBox.value = selectedYear+'/'+selectedMonth+'/'+day
+    document.getElementById('container').style.display='none'
 }
