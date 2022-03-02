@@ -5,49 +5,76 @@
         <title>Afghani Calendar</title>
         <link href="style.css" rel="stylesheet">
         <meta charset="utf-8"/>
+        <style>
+            form{
+                background: #454545;
+                margin-top: 20px;
+                padding: 1em;
+                color: wheat;
+                font-size: 1.5em;
+            }
+            input{
+                border: 0;
+                padding: .5em;
+                border-radius: 5px;
+            }
+            label{
+                padding: 0 .5em;
+                font-weight: 500;
+            }
+            .tag{
+                background: gray; 
+                padding: 1em;
+            }
+            
+        </style>
     </head>
     <body>
-        <section style="width:50%;display: flex;margin: 0 auto;justify-content: space-between;">
-            <div style="width: 40%;">
-                <label>start Date:</label>
-                <input type="text" class="datepicker" >
-            </div>
-            <div style="width: 40%;">
-                <label>End Date:</label>
-                <input type="text" class="datepicker">
-            </div>
-        </section>
-        <section style="width:50%;display: flex;margin: 0 auto;justify-content: space-between;">
-            <div style="width: 40%;">
-                <label>Name:</label>
-                <input type="text"  >
-            </div>
-            <div style="width: 40%;">
-                <label>Last Name:</label>
-                <input type="text">
-            </div>
-        </section>
-        <section style="width:50%;display: flex;margin: 0 auto;justify-content: space-between;">
-            <div style="width: 40%;">
-                <label>start Date:</label>
-                <input type="text" class="datepicker" >
-            </div>
-            <div style="width: 40%;">
-                <label>End Date:</label>
-                <input type="text" class="datepicker">
-            </div>
-        </section>
-        <div id="overlay" style="display: none;">
-            <div id="modal">
-                <select id="select_year">
+        <header>
+            <h1 style="margin-bottom: .5em;">Date pickers: </h1>
+            <h2 style="margin-top: 1em;">Load <strong>sytle.css</strong> inside tag head</h2>
+            <span class="tag">
+                &lt;head&gt;
+                &lt;link href="style.css" rel="stylesheet"&gt;
+                &lt;/head&gt;
+                
+            </span>
+            <h2 style="margin-top: 1em;">Add class <strong>datepicker</strong> to the input text</h2>
+            <span class="tag">
+                
+                &lt;input type="text" class="datepicker"&gt;
+              
+                
+            </span>
+        </header>
+        <form action="#" method="GET">
+            <section style="width:90%;display: flex;margin: 0 auto;justify-content: space-between;">
+                <div style="width: 30%;">
+                    <label>start Date:</label>
+                    <input type="text" class="datepicker" >
                     
-                </select>
-                <select id="select_month">
+                </div>
+                
+            
+                <div style="width: 30%;">
+                    <label>End Date:</label>
+                    <input type="text" class="datepicker">
+                </div>
+            
+                <div style="width: 30%;">
+                    <label>Date of Birth:</label>
+                    <input type="text" class="datepicker" >
                     
-                </select>
-                <a href="#" id="modalBtn" class="modalBtn">انتخاب</a>
-            </div>
-        </div>
+                </div>
+                
+            </section>
+        </form>
+        <h2 style="margin-top: 1em;">Load <strong>index.js</strong> at the bottom of tag body</h2>
+            <span class="tag">
+                &lt;script src="index.js"&gt;
+                &lt;/script&gt;
+                &lt;/body&gt;
+            </span>
         <script src="index.js"></script>
     </body>
 </html>

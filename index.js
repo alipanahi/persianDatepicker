@@ -10,8 +10,7 @@ section.setAttribute('id','container')
 body.appendChild(section)
 let header = document.createElement('header')
 section.appendChild(header)
-let a = document.createElement('a')
-a.setAttribute('href','#')
+let a = document.createElement('button')
 a.classList.add('today')
 a.setAttribute('id','todayBtn')
 a.textContent = 'امروز'
@@ -47,6 +46,23 @@ pre_btn.setAttribute('id','previousMonth')
 pre_btn.textContent = '>'
 actionDiv.appendChild(pre_btn)
 section.style.display='none'
+//modal
+let modalDiv = document.createElement('div')
+modalDiv.setAttribute('id','modal')
+document.getElementById('container').appendChild(modalDiv)
+document.getElementById('modal').style.display= "none";
+let yearSelect = document.createElement('select')
+yearSelect.setAttribute('id','select_year')
+modalDiv.appendChild(yearSelect)
+let monthSelect = document.createElement('select')
+monthSelect.setAttribute('id','select_month')
+modalDiv.appendChild(monthSelect)
+let BtnModal = document.createElement('button')
+BtnModal.setAttribute('id','modalBtn')
+BtnModal.classList.add('modalBtn')
+BtnModal.textContent='انتخاب'
+modalDiv.appendChild(BtnModal)
+
 
 const shamsiDateSpan = document.getElementById('shamsiDate')
 const daysDiv = document.getElementById('days')
@@ -328,13 +344,14 @@ function LoadModal(){
         option.textContent=shamsi_months[i]
         document.getElementById('select_month').appendChild(option)
     }
-    document.getElementById('overlay').style.display='block'
+    document.getElementById('modal').style.display= "block";
+    
 }
  
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    if (event.target == document.getElementById('overlay')) {
-        document.getElementById('overlay').style.display= "none";
+    if (event.target == document.getElementById('modal')) {
+        document.getElementById('modal').style.display= "none";
     }
     
 }
@@ -350,7 +367,7 @@ function renderModal(){
     selectedYear = parseInt(modalYear)
     selectedMonth = parseInt(modalMonth)
 
-    document.getElementById('overlay').style.display= "none";
+    document.getElementById('modal').style.display= "none";
     renderCalendar(modalYear,modalMonth,1)
 }
 window.addEventListener('mouseup', function(e) {
@@ -360,17 +377,29 @@ window.addEventListener('mouseup', function(e) {
 });
 
 function loadDatepicer(e){
+    if(e.value==''){
+        renderToday() /* render datepicker as default */
+    }
+    else{
+        shamsiDateSpan.innerHTML=''
+        daysDiv.innerHTML=''
+        isCurrentMoth = false
+
+        let textValue = e.value.split('/')
+        console.log(textValue[1])
+        renderCalendar(textValue[0],textValue[1],textValue[2])
+    }
     textBox = e
     let top = e.getBoundingClientRect().top
     let height = e.getBoundingClientRect().height
     let left = e.getBoundingClientRect().left
-    console.log(e.getBoundingClientRect())
     document.getElementById('container').style.left=left+'px'
     document.getElementById('container').style.top=top+height+'px'
     document.getElementById('container').style.display='block'
     document.addEventListener('mouseup', function(event) {
         var container = document.getElementById('container');
         if (!container.contains(event.target)) {
+            document.getElementById('modal').style.display = 'none';
             container.style.display = 'none';
         }
     });
