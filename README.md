@@ -1,2 +1,6 @@
 # persianDatepicker
-Persian date picker base on Afghaistan
+Persian date picker base on Afghaistan calendar
+<br>
+without jquery
+<br>
+only javascript
