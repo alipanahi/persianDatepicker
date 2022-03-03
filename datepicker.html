@@ -70,11 +70,29 @@
             </section>
         </form>
         <h2 style="margin-top: 1em;">Load <strong>index.js</strong> at the bottom of tag body</h2>
-            <span class="tag">
-                &lt;script src="index.js"&gt;
-                &lt;/script&gt;
-                &lt;/body&gt;
-            </span>
+        <span class="tag">
+            &lt;script src="index.js"&gt;
+            &lt;/script&gt;
+            &lt;/body&gt;
+        </span>
+        <h2 style="margin-top: 1em;">Add a <strong>settings</strong> object for change the default</h2>
+        
+<pre class="tag" style="width: 20%;">
+&lt;script&gt;
+    settings = {
+        format: "dd/mm/yyyy",
+        dateSeperator: "-",
+        autoClose: true
+    }
+&lt;/script&gt;
+</pre>
         <script src="index.js"></script>
+        <script>
+            settings = {
+                format: "dd/mm/yyyy",
+                dateSeperator: "-",
+                autoClose: true
+            }
+        </script>
     </body>
 </html>
