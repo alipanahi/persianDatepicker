@@ -1,3 +1,10 @@
+/*
+ * 
+ * persian-datepicker -  1.0.1
+ * Ali Hussain Panahi <p.alihussain@gmail.com>
+ * 
+ * 
+ */
 const miladi_month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const shamsi_month_days = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
 const shamsi_months = ["حمل", "ثور", "جوزا", "سرطان","اسد","سنبله","میزان","عقرب","قوس","جدی","دلو","حوت"]
@@ -23,8 +30,8 @@ let sectionContent = `
     <div id="days" dir="rtl"></div>
 </header>
 <div class="actions">
-    <button id="nextMonth" aria-label="Previous Slidex"><</button>
-    <button id="previousMonth" aria-label="Next Slide">></button>
+    <button id="nextMonth" aria-label="Previous"><</button>
+    <button id="previousMonth" aria-label="Next">></button>
 </div>
 <div id="modal" style="display:none">
     <select id="select_year"></select>
@@ -35,6 +42,8 @@ let sectionContent = `
 section.innerHTML = sectionContent
 section.style.display='none'
 //DOMs
+let container = document.getElementById('container')
+const modal = document.getElementById('modal')
 const shamsiDateSpan = document.getElementById('shamsiDate')
 const daysDiv = document.getElementById('days')
 const nextBtn = document.getElementById('nextMonth')
@@ -49,33 +58,86 @@ let currentSDay = 0//the current day shamsi
 let isCurrentMoth = true//used for highlight the current day
 let paired = []//used for pairing the shamsi days with its corresponding miladi days
 let settings = {format:"yyyy/mm/dd",autoClose:true,dateSeperator:"/"}
+//event listeners
 nextBtn.addEventListener('click',loadNextMonth)
 previousBtn.addEventListener('click',loadPreviousMonth)
 shamsiDateSpan.addEventListener('click',LoadModal)
 modalOpen.addEventListener('click',renderModal)
 todayBtn.addEventListener('click',renderToday)
-//according to today's date, render the current month
-let unixdate = Date.now()
-let today = new Date(unixdate)
-let todayDate = today.toLocaleDateString()
-let todayArray = todayDate.split('/')
-let miladi_m = todayArray[0]//current miladi month
-let miladi_d = todayArray[1]//current miladi day
-let miladi_y = todayArray[2]//current miladi year
-
-let shamsiDate = dateToShamsi(miladi_y,miladi_m,miladi_d)//convert the current date to shamsi
-renderCalendar(shamsiDate[0],shamsiDate[1],shamsiDate[2])//load the calendar base on current date
 //event for today button listener to render the current month
 function renderToday(){
     //empty old data
-    shamsiDateSpan.innerHTML=''
-    daysDiv.innerHTML=''
-    isCurrentMoth = false
-
+    clearOldData()
+    //according to today's date, render the current month
+    let unixdate = Date.now()
+    let today = new Date(unixdate)
+    let todayDate = today.toLocaleDateString()
+    let todayArray = todayDate.split('/')
+    let miladi_m = todayArray[0]//current miladi month
+    let miladi_d = todayArray[1]//current miladi day
+    let miladi_y = todayArray[2]//current miladi year
+    let shamsiDate = dateToShamsi(miladi_y,miladi_m,miladi_d)//convert the current date to shamsi
     selectedYear = shamsiDate[0]
     selectedMonth = shamsiDate[1]
 
     renderCalendar(shamsiDate[0],shamsiDate[1],shamsiDate[2])
+}
+//main function to render the calendar base on given date
+function renderCalendar(sY,sM,sD){
+    //check if redndering current month to display the current day
+    if(sM == currentSMonth || sM == 0){
+        isCurrentMoth = true
+    }
+    shamsiDateSpan.textContent=sY+' '+shamsi_months[sM-1]//shamsi month header
+
+    let sMiladiArray = dateToMiladi(sY,sM,1)//get the miladi date of start date for pairing and day week
+    let shamsiLeapMonth = shamsi_month_days[sM-1]//as array index starts from 0, then -1 to get the real one
+    if(sM ==12 && shamsiIsLeap(sY)){//month 12 and leap year
+        shamsiLeapMonth = 30
+    }
+    let eMiladiArray = dateToMiladi(sY,sM,shamsiLeapMonth)//miladi date of end day of shamsi month
+    
+    //pairing shamsi with correspond miladi day
+    pairShamsiWithMiladi(sMiladiArray[0],sMiladiArray[1],sMiladiArray[2],eMiladiArray[2])
+    //finding the first day of shamsi of the current month
+    //0:sun ... 6: sat
+    let sWeekDay = new Date(sMiladiArray[0],sMiladiArray[1]-1,sMiladiArray[2]).getDay()
+    let eWeekDay = new Date(eMiladiArray[0],eMiladiArray[1]-1,eMiladiArray[2]).getDay()
+    if(sWeekDay != 6){//empty span for days which are before start day of the month
+        for(let j = 0;j<=sWeekDay;j++){
+            let squar = document.createElement('span')
+            squar.classList.add('day')
+            daysDiv.appendChild(squar)
+        }
+    }
+
+    for(let i = 1; i <= shamsiLeapMonth; i++){
+        let squar = document.createElement('div')
+        squar.setAttribute('id','day_'+i)
+        squar.setAttribute('onclick','putDate('+i+')')
+        squar.classList.add('day')
+        if(i==currentSDay && isCurrentMoth){
+            squar.classList.add('current-day')
+        }
+        daysDiv.appendChild(squar)
+        let sSpan = document.createElement('span')
+        sSpan.classList.add('shamsi_day')
+        sSpan.textContent=i
+        document.getElementById('day_'+i).appendChild(sSpan)
+
+    }
+    //empty spans for days which are after last day of the month
+    if(eWeekDay != 6){
+        for(let j = eWeekDay;j<5;j++){
+            let squar = document.createElement('span')
+            squar.classList.add('day')
+            daysDiv.appendChild(squar)
+        }
+    }else{
+        let squar = document.createElement('span')
+        squar.classList.add('day')
+        daysDiv.appendChild(squar)
+    }
 }
 //function to convert the miladi date to shamsi
 function dateToShamsi(miladi_y,miladi_m,miladi_d){
@@ -123,64 +185,7 @@ function dateToShamsi(miladi_y,miladi_m,miladi_d){
     currentSDay = sD
     return [sY,sM,sD]
 }
-//main function to render the calendar base on given date
-function renderCalendar(sY,sM,sD){
-    //check if redndering current month to display the current day
-    if(sM == currentSMonth || sM == 0){
-        isCurrentMoth = true
-    }
-    shamsiDateSpan.textContent=sY+' '+shamsi_months[sM-1]//shamsi month header
 
-    let sMiladiArray = dateToMiladi(sY,sM,1)//get the miladi date of start date for pairing and day week
-    let shamsiLeapMonth = shamsi_month_days[sM-1]//as array index starts from 0, then -1 to get the real one
-    if(sM ==12 && shamsiIsLeap(sY)){//month 12 and leap year
-        shamsiLeapMonth = 30
-    }
-    let eMiladiArray = dateToMiladi(sY,sM,shamsiLeapMonth)//miladi date of end day of shamsi month
-    
-    //pairing shamsi with correspond miladi day
-    pairShamsiWithMiladi(sMiladiArray[0],sMiladiArray[1],sMiladiArray[2],eMiladiArray[2])
-    //finding the first day of shamsi of the current month
-    //0:sun ... 6: sat
-    let sWeekDay = new Date(sMiladiArray[0],sMiladiArray[1]-1,sMiladiArray[2]).getDay()
-    let eWeekDay = new Date(eMiladiArray[0],eMiladiArray[1]-1,eMiladiArray[2]).getDay()
-    if(sWeekDay != 6){
-        for(let j = 0;j<=sWeekDay;j++){
-            let squar = document.createElement('span')
-            squar.classList.add('day')
-            daysDiv.appendChild(squar)
-        }
-    }
-
-    for(let i = 1; i <= shamsiLeapMonth; i++){
-        let squar = document.createElement('div')
-        squar.setAttribute('id','day_'+i)
-        squar.setAttribute('onclick','putDate('+i+')')
-        squar.classList.add('day')
-        if(i==currentSDay && isCurrentMoth){
-            squar.classList.add('current-day')
-        }
-        daysDiv.appendChild(squar)
-        let sSpan = document.createElement('span')
-        sSpan.classList.add('shamsi_day')
-        sSpan.textContent=i
-        document.getElementById('day_'+i).appendChild(sSpan)
-        
-        
-
-    }
-    if(eWeekDay != 6){
-        for(let j = eWeekDay;j<5;j++){
-            let squar = document.createElement('span')
-            squar.classList.add('day')
-            daysDiv.appendChild(squar)
-        }
-    }else{
-        let squar = document.createElement('span')
-        squar.classList.add('day')
-        daysDiv.appendChild(squar)
-    }
-}
 //function to convert the shamsi date to miladi
 function dateToMiladi(y,m,d){
     let shY = y-979
@@ -238,16 +243,11 @@ function dateToMiladi(y,m,d){
     return [miY,miM,miD]
     
 }
-//doing MOD %
-function div(a, b) {
-    return Math.floor(a / b);
- }
+
  //funtion for render next month
  function loadNextMonth(){
-     //clear old date
-    shamsiDateSpan.innerHTML=''
-    daysDiv.innerHTML=''
-    isCurrentMoth = false
+    //clear old date
+    clearOldData()
 
     if(selectedMonth == 12){//if the current month is 12, then the next month is the first month of next year
         selectedMonth = 1
@@ -261,10 +261,8 @@ function div(a, b) {
  }
  //funtion for render the previous month
  function loadPreviousMonth(){
-     //empty old date
-    shamsiDateSpan.innerHTML=''
-    daysDiv.innerHTML=''
-    isCurrentMoth = false
+    //empty old date
+    clearOldData()
 
     if(selectedMonth == 1){//if the current is first month
         selectedMonth = 12//the previous is the 12th month of last year
@@ -292,22 +290,9 @@ function div(a, b) {
         paired.push(j) 
     }
 }
-//check if miladi year is leap
-function miladiIsLeap (year)
-{
-    return ((year%4) == 0 && ((year%100) != 0 || (year%400) == 0));
-}
-//check if shamsi date is leap  
-function shamsiIsLeap (year)
-{
-    year = (year - 474) % 128;
-    year = ((year >= 30) ? 0 : 29) + year;
-    year = year -Math.floor(year/33) - 1;
-    return ((year % 4) == 0);
-}
 //load modal for selecting year and month
 function LoadModal(){
-    for(let i=currentSYear-50;i<=currentSYear+1;i++){
+    for(let i=currentSYear-50;i<=currentSYear+10;i++){//loop between 50 years ago to next 10 year
         let option = document.createElement('option')
         option.setAttribute('value',i)
         if(i==selectedYear){
@@ -325,48 +310,45 @@ function LoadModal(){
         option.textContent=shamsi_months[i]
         document.getElementById('select_month').appendChild(option)
     }
-    document.getElementById('modal').style.display= "block";
-    
+    modal.style.display= "block";
 }
  
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    if (event.target == document.getElementById('modal')) {
-        document.getElementById('modal').style.display= "none";
+    if (event.target == modal) {
+        modal.style.display= "none";
     }
     
 }
+//render datepicker whenever user clicks on an input with class datepicker-farsi
+window.addEventListener('mouseup', function(e) {
+    if(e.target.classList == 'datepicker-farsi'){
+        e.target.addEventListener('click',loadDatepicker(e.target))
+    }
+});
 //render the calendar base on date from modal
 function renderModal(){
     //take the value from select boxes
     let modalYear = document.getElementById('select_year').value
     let modalMonth = document.getElementById('select_month').value
     //clear old date
-    shamsiDateSpan.innerHTML=''
-    daysDiv.innerHTML=''
-    isCurrentMoth = false
+    clearOldData()
     //convet the value to integer
     selectedYear = parseInt(modalYear)
     selectedMonth = parseInt(modalMonth)
 
-    document.getElementById('modal').style.display= "none";
+    modal.style.display= "none";
     renderCalendar(modalYear,modalMonth,1)
 }
-window.addEventListener('mouseup', function(e) {
-    if(e.target.classList == 'datepicker'){
-        e.target.addEventListener('click',loadDatepicer(e.target))
-    }
-});
-//when user click on input text with class datepicker, render the datepicker
-function loadDatepicer(e){
+
+//when user click on input text with class datepicker-farsi, render the datepicker
+function loadDatepicker(e){
     if(e.value==''){//if input text is empty
         renderToday() /* render datepicker as default */
     }
     else{//if input field has already date inside
         //empty old date
-        shamsiDateSpan.innerHTML=''
-        daysDiv.innerHTML=''
-        isCurrentMoth = false
+        clearOldData()
         let seperator = "/"
         if(settings["dateSeperator"]){
             seperator = settings["dateSeperator"]
@@ -405,22 +387,21 @@ function loadDatepicer(e){
                 m = textValue[0]
                 d = textValue[2]
             }
-        }else{
+        }else{//default format
             y = textValue[0]
             m = textValue[1]
             d = textValue[2]
         }
         renderCalendar(y,m,d)
     }
-    textBox = e
+    textBox = e//the input field dom
     let top = e.getBoundingClientRect().top
     let height = e.getBoundingClientRect().height
     let left = e.getBoundingClientRect().left
-    document.getElementById('container').style.left=left+'px'
-    document.getElementById('container').style.top=top+height+'px'
-    document.getElementById('container').style.display='block'
+    container.style.left=left+'px'
+    container.style.top=top+height+'px'
+    container.style.display='block'
     document.addEventListener('mouseup', function(event) {
-        var container = document.getElementById('container');
         if (!container.contains(event.target)) {
             document.getElementById('modal').style.display = 'none';
             container.style.display = 'none';
@@ -454,13 +435,36 @@ function putDate(day){
             textBox.value = selectedMonth+seperator+selectedYear+seperator+day
         }
     }
-    else{
+    else{//default format
         textBox.value = selectedYear+seperator+selectedMonth+seperator+day
     }
     if(settings["autoClose"]===false){
-        document.getElementById('container').style.display='block'
+        container.style.display='block'
     }
     else{
-        document.getElementById('container').style.display='none'
+        container.style.display='none'
     }
+}
+//doing MOD %
+function div(a, b) {
+    return Math.floor(a / b);
+ }
+//clear old rendered data
+function clearOldData(){
+    shamsiDateSpan.innerHTML=''
+    daysDiv.innerHTML=''
+    isCurrentMoth = false
+}
+//check if miladi year is leap
+function miladiIsLeap (year)
+{
+    return ((year%4) == 0 && ((year%100) != 0 || (year%400) == 0));
+}
+//check if shamsi date is leap  
+function shamsiIsLeap (year)
+{
+    year = (year - 474) % 128;
+    year = ((year >= 30) ? 0 : 29) + year;
+    year = year -Math.floor(year/33) - 1;
+    return ((year % 4) == 0);
 }

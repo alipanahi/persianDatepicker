@@ -32,17 +32,17 @@
     <body>
         <header>
             <h1 style="margin-bottom: .5em;">Date pickers: </h1>
-            <h2 style="margin-top: 1em;">Load <strong>sytle.css</strong> inside tag head</h2>
+            <h2 style="margin-top: 1em;">Include <strong>sytle.css</strong> inside tag head</h2>
             <span class="tag">
                 &lt;head&gt;
                 &lt;link href="style.css" rel="stylesheet"&gt;
                 &lt;/head&gt;
                 
             </span>
-            <h2 style="margin-top: 1em;">Add class <strong>datepicker</strong> to the input text</h2>
+            <h2 style="margin-top: 1em;">Add class <strong>datepicker-farsi</strong> to the input text</h2>
             <span class="tag">
                 
-                &lt;input type="text" class="datepicker"&gt;
+                &lt;input type="text" class="datepicker-farsi"&gt;
               
                 
             </span>
@@ -51,31 +51,31 @@
             <section style="width:90%;display: flex;margin: 0 auto;justify-content: space-between;">
                 <div style="width: 30%;">
                     <label>start Date:</label>
-                    <input type="text" class="datepicker" >
+                    <input type="text" class="datepicker-farsi" >
                     
                 </div>
                 
             
                 <div style="width: 30%;">
                     <label>End Date:</label>
-                    <input type="text" class="datepicker">
+                    <input type="text" class="datepicker-farsi">
                 </div>
             
                 <div style="width: 30%;">
                     <label>Date of Birth:</label>
-                    <input type="text" class="datepicker" >
+                    <input type="text" class="datepicker-farsi" >
                     
                 </div>
                 
             </section>
         </form>
-        <h2 style="margin-top: 1em;">Load <strong>index.js</strong> at the bottom of tag body</h2>
+        <h2 style="margin-top: 1em;">Include <strong>index.min.js</strong> at the bottom of tag body</h2>
         <span class="tag">
-            &lt;script src="index.js"&gt;
+            &lt;script src="index.min.js"&gt;
             &lt;/script&gt;
             &lt;/body&gt;
         </span>
-        <h2 style="margin-top: 1em;">Add a <strong>settings</strong> object for change the default</h2>
+        <h2 style="margin-top: 1em;">Add a <strong>settings</strong> object in order to change the default settings</h2>
         
 <pre class="tag" style="width: 20%;">
 &lt;script&gt;
@@ -86,7 +86,7 @@
     }
 &lt;/script&gt;
 </pre>
-        <script src="index.js"></script>
+        <script src="index.min.js"></script>
         <script>
             settings = {
                 format: "dd/mm/yyyy",
