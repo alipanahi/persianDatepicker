@@ -7,7 +7,9 @@
  */
 const miladi_month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const shamsi_month_days = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
-const shamsi_months = ["حمل", "ثور", "جوزا", "سرطان","اسد","سنبله","میزان","عقرب","قوس","جدی","دلو","حوت"]
+const shamsi_months_da = ["حمل", "ثور", "جوزا", "سرطان","اسد","سنبله","میزان","عقرب","قوس","جدی","دلو","حوت"]
+const shamsi_months_pa = ["وری", "غویی", "غبرګولی", "چنګاښ","زمری","وږی","تله","لړم","لیندی","مرغومی","سلواغه","کب"]
+const shamsi_months_fa = ["فروردین", "اردیبهشت", "خرداد", "تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"]
 const miladi_months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 //create all elements needed for datepicker inside body
 let body = document.getElementsByTagName('body')[0]
@@ -52,12 +54,13 @@ const modalOpen = document.getElementById('modalBtn')
 const todayBtn = document.getElementById('todayBtn')
 let selectedMonth = 0//selected month by action buttons and dropdowns
 let selectedYear = 0//selected year by action buttons and dropdowns
+let selectedDay = 0
 let currentSYear = 0//the current year shamsi
 let currentSMonth = 0//the current month shamsi
 let currentSDay = 0//the current day shamsi
 let isCurrentMoth = true//used for highlight the current day
 let paired = []//used for pairing the shamsi days with its corresponding miladi days
-let settings = {format:"yyyy/mm/dd",autoClose:true,dateSeperator:"/"}
+let settings = {format:"yyyy/mm/dd",autoClose:true,dateSeparator:"/",labelLanguage:"dari"}
 //event listeners
 nextBtn.addEventListener('click',loadNextMonth)
 previousBtn.addEventListener('click',loadPreviousMonth)
@@ -84,11 +87,20 @@ function renderToday(){
 }
 //main function to render the calendar base on given date
 function renderCalendar(sY,sM,sD){
-    //check if redndering current month to display the current day
-    if(sM == currentSMonth || sM == 0){
+    //check if redndering current month to display the current day && the selected year is equal to current year && it is not selected by user
+    if((sM == currentSMonth || sM == 0) && sY == currentSYear && sD !=selectedDay){
         isCurrentMoth = true
     }
-    shamsiDateSpan.textContent=sY+' '+shamsi_months[sM-1]//shamsi month header
+    let monthLabel = shamsi_months_da[sM-1]
+    if(settings['labelLanguage']){
+        if(settings['labelLanguage']=='pashto'){
+            monthLabel = shamsi_months_pa[sM-1]
+        }
+        else if(settings['labelLanguage']=='farsi'){
+            monthLabel = shamsi_months_fa[sM-1]
+        }
+    }
+    shamsiDateSpan.textContent=sY+' '+monthLabel//shamsi month header
 
     let sMiladiArray = dateToMiladi(sY,sM,1)//get the miladi date of start date for pairing and day week
     let shamsiLeapMonth = shamsi_month_days[sM-1]//as array index starts from 0, then -1 to get the real one
@@ -117,6 +129,9 @@ function renderCalendar(sY,sM,sD){
         squar.setAttribute('onclick','putDate('+i+')')
         squar.classList.add('day')
         if(i==currentSDay && isCurrentMoth){
+                squar.classList.add('current-day')
+        }
+        else if(i == selectedDay){
             squar.classList.add('current-day')
         }
         daysDiv.appendChild(squar)
@@ -292,6 +307,17 @@ function dateToMiladi(y,m,d){
 }
 //load modal for selecting year and month
 function LoadModal(){
+    document.getElementById('select_year').textContent=''
+    document.getElementById('select_month').textContent=''
+    let monthLabel = shamsi_months_da
+    if(settings['labelLanguage']){
+        if(settings['labelLanguage']=='pashto'){
+            monthLabel = shamsi_months_pa
+        }
+        else if(settings['labelLanguage']=='farsi'){
+            monthLabel = shamsi_months_fa
+        }
+    }
     for(let i=currentSYear-50;i<=currentSYear+10;i++){//loop between 50 years ago to next 10 year
         let option = document.createElement('option')
         option.setAttribute('value',i)
@@ -301,13 +327,13 @@ function LoadModal(){
         option.textContent=i
         document.getElementById('select_year').appendChild(option)
     }
-    for (let i = 0;i<shamsi_months.length;i++){
+    for (let i = 0;i<12;i++){
         let option = document.createElement('option')
         option.setAttribute('value',i+1)
         if(i+1==selectedMonth){
             option.setAttribute('selected','selected')
         }
-        option.textContent=shamsi_months[i]
+        option.textContent=monthLabel[i]
         document.getElementById('select_month').appendChild(option)
     }
     modal.style.display= "block";
@@ -344,14 +370,15 @@ function renderModal(){
 //when user click on input text with class datepicker-farsi, render the datepicker
 function loadDatepicker(e){
     if(e.value==''){//if input text is empty
+        selectedDay = 0//in the current month the current day will be selcted not the selected one
         renderToday() /* render datepicker as default */
     }
     else{//if input field has already date inside
         //empty old date
         clearOldData()
         let seperator = "/"
-        if(settings["dateSeperator"]){
-            seperator = settings["dateSeperator"]
+        if(settings["dateSeparator"]){
+            seperator = settings["dateSeparator"]
         }
         //take the date from input
         let textValue = e.value.split(seperator)
@@ -392,6 +419,7 @@ function loadDatepicker(e){
             m = textValue[1]
             d = textValue[2]
         }
+        selectedDay = d//to say the renderCalendar which day should be selected
         renderCalendar(y,m,d)
     }
     textBox = e//the input field dom
@@ -407,36 +435,41 @@ function loadDatepicker(e){
             container.style.display = 'none';
         }
     });
-    
-    
 }
 //put the date inside input text
 function putDate(day){
+    let month = selectedMonth
+    if(selectedMonth < 10){
+        month = '0'+selectedMonth
+    }
+    if(day < 10){
+        day = '0'+day
+    }
     let seperator = "/"
-    if(settings["dateSeperator"]){
-        seperator = settings["dateSeperator"]
+    if(settings["dateSeparator"]){
+        seperator = settings["dateSeparator"]
     }
     if(settings["format"]){
         let format = settings["format"].split("/")
         if(format[0]==='yyyy' && format[1]==='mm' && format[2] === 'dd'){
-            textBox.value = selectedYear+seperator+selectedMonth+seperator+day
+            textBox.value = selectedYear+seperator+month+seperator+day
         }else if(format[0]==='yyyy' && format[1]==='dd' && format[2] === 'mm'){
-            textBox.value = selectedYear+seperator+day+seperator+selectedMonth
+            textBox.value = selectedYear+seperator+day+seperator+month
         }else if(format[0]==='dd' && format[1]==='mm' && format[2] === 'yyyy'){
-            textBox.value = day+seperator+selectedMonth+seperator+selectedYear
+            textBox.value = day+seperator+month+seperator+selectedYear
         }
         else if(format[0]==='dd' && format[1]==='yyyy' && format[2] === 'mm'){
-            textBox.value = day+seperator+selectedYear+seperator+selectedMonth
+            textBox.value = day+seperator+selectedYear+seperator+month
         }
         else if(format[0]==='mm' && format[1]==='dd' && format[2] === 'yyyy'){
-            textBox.value = selectedMonth+seperator+day+sseperator+selectedYear
+            textBox.value = month+seperator+day+sseperator+selectedYear
         }
         else if(format[0]==='mm' && format[1]==='yyyy' && format[2] === 'dd'){
-            textBox.value = selectedMonth+seperator+selectedYear+seperator+day
+            textBox.value = month+seperator+selectedYear+seperator+day
         }
     }
     else{//default format
-        textBox.value = selectedYear+seperator+selectedMonth+seperator+day
+        textBox.value = selectedYear+seperator+month+seperator+day
     }
     if(settings["autoClose"]===false){
         container.style.display='block'
