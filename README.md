@@ -2,7 +2,7 @@
 
 <h2>Based on Afghanistan calendar</h2>
 <p>without jquery - only javascript</p>
-<h2>Include <strong>style.css</strong> inside tag head</h2>
+Include <strong>style.css</strong> inside tag head
 
     <head>
         <link href="style.css" rel="stylesheet">
