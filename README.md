@@ -2,6 +2,7 @@
 
 <h2>Based on Afghanistan calendar</h2>
 <p>without jquery - only javascript</p>
+![Fork button](contributing/images/fork.png)
 <h2>Include <strong>style.css</strong> inside tag head</h2>
 <pre>
 &lt;head&gt;
