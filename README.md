@@ -9,23 +9,20 @@
     </head>
 
 <h2>Add class <strong>datepicker-farsi</strong> to the input text</h2>
-<pre>
-&lt;input type="text" class="datepicker-farsi"&gt;
-</pre>
+
+    <input type="text" class="datepicker-farsi>
+
 <h2>Include <strong>index.min.js</strong> at the bottom of tag body</h2>
-<pre>
-&lt;script src="index.min.js"&gt;&lt;/script&gt;
-&lt;/body&gt;
-</pre>
+
+    <script src="index.min.js"></script>
+
 <h2>Add a <strong>settings</strong> object in order to change the default settings</h2>
         
-<pre>
-&lt;script&gt;
+    <script>
     settings = {
         format: 'dd/mm/yyyy',
         dateSeparator: '-',
         autoClose: true,
         labelLanguage: 'dari' // 'pashto','farsi'
     }
-&lt;/script&gt;
-</pre>
+    </script>
