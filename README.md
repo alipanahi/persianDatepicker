@@ -3,11 +3,11 @@
 <h2>Based on Afghanistan calendar</h2>
 <p>without jquery - only javascript</p>
 <h2>Include <strong>style.css</strong> inside tag head</h2>
-<span>
+<pre>
     &lt;head&gt;
     &lt;link href="style.css" rel="stylesheet"&gt;
     &lt;/head&gt;
-</span>
+</pre>
 <h2>Add class <strong>datepicker-farsi</strong> to the input text</h2>
 <span>
     &lt;input type="text" class="datepicker-farsi"&gt;
