@@ -1,35 +1,5 @@
 # persianDatepicker
-<html>
-    <head>
-       
-        <title>Afghani Datepicker</title>
-        <link href="style.css" rel="stylesheet">
-        <meta charset="utf-8"/>
-        <style>
-            form{
-                background: #454545;
-                margin-top: 20px;
-                padding: 1em;
-                color: wheat;
-                font-size: 1.5em;
-            }
-            input{
-                border: 0;
-                padding: .5em;
-                border-radius: 5px;
-            }
-            label{
-                padding: 0 .5em;
-                font-weight: 500;
-            }
-            .tag{
-                background: gray; 
-                padding: 1em;
-            }
-            
-        </style>
-    </head>
-    <body>
+
         <header>
             <h1 style="margin-bottom: .5em;">Date pickers: </h1>
             <h2 style="margin-top: 1em;">Include <strong>sytle.css</strong> inside tag head</h2>
@@ -96,5 +66,4 @@
                 labelLanguage: 'dari'
             }
         </script>
-    </body>
-</html>
+   
