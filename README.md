@@ -14,8 +14,7 @@
 </pre>
 <h2>Include <strong>index.min.js</strong> at the bottom of tag body</h2>
 <pre>
-&lt;script src="index.min.js"&gt;
-&lt;/script&gt;
+&lt;script src="index.min.js"&gt;&lt;/script&gt;
 &lt;/body&gt;
 </pre>
 <h2>Add a <strong>settings</strong> object in order to change the default settings</h2>
