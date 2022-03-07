@@ -3,8 +3,8 @@
 ## Based on Afghanistan calendar
 <p>without jquery - only javascript</p>
 
-    ![datepicker](/img/datepicker.png)
-    
+![datepicker](https://github.com/alipanahi/persianDatepicker/blob/main/img/datepicker.png)
+
 ### Include ***style.css*** inside tag head
 
     <head>
