@@ -1,23 +1,25 @@
 # persianDatepicker
 
-<h2>Based on Afghanistan calendar</h2>
+## Based on Afghanistan calendar
 <p>without jquery - only javascript</p>
-![Edit button](img/datepicker.png)
-<h2>Include <strong>style.css</strong> inside tag head</h2>
+
+    ![alt text](https://github.com/alipanahi/persianDatepicker/blob/main/img/datepicker.png?raw=true)
+    
+### Include <strong>style.css</strong> inside tag head
 
     <head>
         <link href="style.css" rel="stylesheet">
     </head>
 
-<h2>Add class <strong>datepicker-farsi</strong> to the input text</h2>
+### Add class <strong>datepicker-farsi</strong> to the input text
 
     <input type="text" class="datepicker-farsi>
 
-<h2>Include <strong>index.min.js</strong> at the bottom of tag body</h2>
+### Include <strong>index.min.js</strong> at the bottom of tag body
 
     <script src="index.min.js"></script>
 
-<h2>Add a <strong>settings</strong> object in order to change the default settings</h2>
+### Add a <strong>settings</strong> object in order to change the default settings
         
     <script>
         settings = {
