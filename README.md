@@ -2,13 +2,12 @@
 
 <h2>Based on Afghanistan calendar</h2>
 <p>without jquery - only javascript</p>
-![Fork button](contributing/images/fork.png)
 <h2>Include <strong>style.css</strong> inside tag head</h2>
-<pre>
-&lt;head&gt;
-    &lt;link href="style.css" rel="stylesheet"&gt;
-&lt;/head&gt;
-</pre>
+
+    <head>
+        <link href="style.css" rel="stylesheet">
+    </head>
+
 <h2>Add class <strong>datepicker-farsi</strong> to the input text</h2>
 <pre>
 &lt;input type="text" class="datepicker-farsi"&gt;
