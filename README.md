@@ -11,15 +11,15 @@
         <link href="style.css" rel="stylesheet">
     </head>
 
-### Add class <strong>datepicker-farsi</strong> to the input text
+### Add class ***datepicker-farsi*** to the input text
 
     <input type="text" class="datepicker-farsi>
 
-### Include <strong>index.min.js</strong> at the bottom of tag body
+### Include ***index.min.js*** at the bottom of tag body
 
     <script src="index.min.js"></script>
 
-### Add a <strong>settings</strong> object in order to change the default settings
+### Add a ***settings*** object in order to change the default settings
         
     <script>
         settings = {
