@@ -2,7 +2,7 @@
 
 <h2>Based on Afghanistan calendar</h2>
 <p>without jquery - only javascript</p>
-Include <strong>style.css</strong> inside tag head
+<h2>Include <strong>style.css</strong> inside tag head</h2>
 
     <head>
         <link href="style.css" rel="stylesheet">
@@ -19,10 +19,10 @@ Include <strong>style.css</strong> inside tag head
 <h2>Add a <strong>settings</strong> object in order to change the default settings</h2>
         
     <script>
-    settings = {
-        format: 'dd/mm/yyyy',
-        dateSeparator: '-',
-        autoClose: true,
-        labelLanguage: 'dari' // 'pashto','farsi'
-    }
+        settings = {
+            format: 'dd/mm/yyyy',
+            dateSeparator: '-',
+            autoClose: true,
+            labelLanguage: 'dari' // 'pashto','farsi'
+        }
     </script>
