@@ -12,7 +12,7 @@ const shamsi_months_pa = ["وری", "غویی", "غبرګولی", "چنګاښ","
 const shamsi_months_fa = ["فروردین", "اردیبهشت", "خرداد", "تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"]
 const miladi_months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 //create all elements needed for datepicker inside body
-let body = document.getElementsByTagName('body')[0]
+let body = document.body
 let section = document.createElement('section')//main container of datepicker
 section.setAttribute('id','container')
 body.appendChild(section)
@@ -52,14 +52,14 @@ const nextBtn = document.getElementById('nextMonth')
 const previousBtn = document.getElementById('previousMonth')
 const modalOpen = document.getElementById('modalBtn')
 const todayBtn = document.getElementById('todayBtn')
+let yearDropdown = document.getElementById('select_year')
+let monthDropdown = document.getElementById('select_month')
 let selectedMonth = 0//selected month by action buttons and dropdowns
 let selectedYear = 0//selected year by action buttons and dropdowns
 let selectedDay = 0
 let currentSYear = 0//the current year shamsi
 let currentSMonth = 0//the current month shamsi
 let currentSDay = 0//the current day shamsi
-let isCurrentMoth = true//used for highlight the current day
-let paired = []//used for pairing the shamsi days with its corresponding miladi days
 let settings = {format:"yyyy/mm/dd",autoClose:true,dateSeparator:"/",labelLanguage:"dari"}
 let textBox = ''//input text with class datepicker-farsi
 //event listeners
@@ -85,14 +85,11 @@ function renderToday(){
     selectedMonth = shamsiDate[1]
     selectedDay = shamsiDate[2]
     renderCalendar(shamsiDate[0],shamsiDate[1],shamsiDate[2])
-    putDate(shamsiDate[2])
+    
 }
 //main function to render the calendar base on given date
 function renderCalendar(sY,sM,sD){
-    //check if redndering current month to display the current day && the selected year is equal to current year && it is not selected by user
-    if((sM == currentSMonth || sM == 0) && sY == currentSYear && sD !=selectedDay){
-        isCurrentMoth = true
-    }
+   
     let monthLabel = shamsi_months_da[sM-1]
     if(settings['labelLanguage']){
         if(settings['labelLanguage']=='pashto'){
@@ -126,12 +123,10 @@ function renderCalendar(sY,sM,sD){
         squar.setAttribute('id','day_'+i)
         squar.setAttribute('onclick','putDate('+i+')')
         squar.classList.add('day')
-        if(i==currentSDay && isCurrentMoth){
+        if(i==sD ){
                 squar.classList.add('current-day')
         }
-        else if(i == selectedDay){
-            squar.classList.add('current-day')
-        }
+        
         daysDiv.appendChild(squar)
         let sSpan = document.createElement('span')
         sSpan.classList.add('shamsi_day')
@@ -290,8 +285,8 @@ function dateToMiladi(y,m,d){
  
 //load modal for selecting year and month
 function LoadModal(){
-    document.getElementById('select_year').textContent=''
-    document.getElementById('select_month').textContent=''
+    yearDropdown.textContent=''
+    monthDropdown.textContent=''
     let monthLabel = shamsi_months_da
     if(settings['labelLanguage']){
         if(settings['labelLanguage']=='pashto'){
@@ -308,7 +303,7 @@ function LoadModal(){
             option.setAttribute('selected','selected')
         }
         option.textContent=i
-        document.getElementById('select_year').appendChild(option)
+        yearDropdown.appendChild(option)
     }
     for (let i = 0;i<12;i++){
         let option = document.createElement('option')
@@ -317,7 +312,7 @@ function LoadModal(){
             option.setAttribute('selected','selected')
         }
         option.textContent=monthLabel[i]
-        document.getElementById('select_month').appendChild(option)
+        monthDropdown.appendChild(option)
     }
     modal.style.display= "block";
 }
@@ -338,8 +333,8 @@ window.addEventListener('mouseup', function(e) {
 //render the calendar base on date from modal
 function renderModal(){
     //take the value from select boxes
-    let modalYear = document.getElementById('select_year').value
-    let modalMonth = document.getElementById('select_month').value
+    let modalYear = yearDropdown.value
+    let modalMonth = monthDropdown.value
     //clear old date
     clearOldData()
     //convet the value to integer
@@ -353,7 +348,6 @@ function renderModal(){
 //when user click on input text with class datepicker-farsi, render the datepicker
 function loadDatepicker(e){
     if(e.value==''){//if input text is empty
-        selectedDay = 0//in the current month the current day will be selcted not the selected one
         renderToday() /* render datepicker as default */
     }
     else{//if input field has already date inside
@@ -412,7 +406,7 @@ function loadDatepicker(e){
     container.style.display='block'
     document.addEventListener('mouseup', function(event) {
         if (!container.contains(event.target)) {
-            document.getElementById('modal').style.display = 'none';
+            modal.style.display = 'none';
             container.style.display = 'none';
         }
     });
@@ -453,14 +447,13 @@ function putDate(day){
         container.style.display='none'
     }
 }
-//doing MOD % by arrow function
+//doing MOD %, by arrow function
 const div = (a, b) => Math.floor(a / b)
 
 //clear old rendered data
 function clearOldData(){
     shamsiDateSpan.innerHTML=''
     daysDiv.innerHTML=''
-    isCurrentMoth = false
 }
 //check if miladi year is leap
 const miladiIsLeap = year => ((year%4) == 0 && ((year%100) != 0 || (year%400) == 0))
