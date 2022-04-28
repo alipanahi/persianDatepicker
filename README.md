@@ -1,5 +1,5 @@
 
-# persianDatepicker [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Get%20persionDatePicker%20developed%20using%20only%20javascript%20here:%20&url=https://github.com/alipanahi/persianDatepicker&hashtags=javascript,developers)
+# persianDatepicker [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Get%20persianDatePicker%20developed%20using%20only%20javascript%20here:%20&url=https://github.com/alipanahi/persianDatepicker&hashtags=javascript,developers)
 
 Datepicker for web sites base on Afghanistan and Iran Calendar
 
