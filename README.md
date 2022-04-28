@@ -1,29 +1,4 @@
 
-
-### Include ***style.css*** inside tag head
-
-    <head>
-        <link href="style.css" rel="stylesheet">
-    </head>
-
-### Add class ***datepicker-farsi*** to the input text
-
-    <input type="text" class="datepicker-farsi>
-
-### Include ***index.min.js*** at the bottom of tag body
-
-    <script src="index.min.js"></script>
-
-### Add a ***settings*** object in order to change the default settings
-        
-    <script>
-        settings = {
-            format: 'dd/mm/yyyy',
-            dateSeparator: '-',
-            autoClose: true,
-            labelLanguage: 'dari' // 'pashto','farsi'
-        }
-    </script>
 # persianDatepicker
 
 Datepicker for web sites base on Afghanistan and Iran Calendar
