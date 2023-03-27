@@ -431,7 +431,7 @@ function putDate(day){
             textBox.value = day+seperator+selectedYear+seperator+month
         }
         else if(format[0]==='mm' && format[1]==='dd' && format[2] === 'yyyy'){
-            textBox.value = month+seperator+day+sseperator+selectedYear
+            textBox.value = month+seperator+day+seperator+selectedYear
         }
         else if(format[0]==='mm' && format[1]==='yyyy' && format[2] === 'dd'){
             textBox.value = month+seperator+selectedYear+seperator+day
